@@ -39,7 +39,7 @@ st.set_page_config(page_title="Gemini Health App")
 
 st.title("Gemini Health App")
 st.header("Upload your meal image to get the calories detail")
-## input=st.text_input("Input Prompt: ",key="input")
+input=st.text_input("Input Prompt: ",key="input")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 image=""   
 if uploaded_file is not None:
