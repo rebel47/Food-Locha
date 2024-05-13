@@ -35,11 +35,11 @@ def input_image_setup(uploaded_file):
     
 ##initialize our streamlit app
 
-st.set_page_config(page_title="Gemini Health App")
+st.set_page_config(page_title="Food Locha ")
 
-st.title("Gemini Health App")
+st.title("Food Locha: : Made with ❣️ by Ayaz")
 st.header("Upload your meal image to get the calories detail")
-input=st.text_input("Input Prompt: ",key="input")
+input=st.text_input("Input Prompt: (Optional) ",key="input")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 image=""   
 if uploaded_file is not None:
