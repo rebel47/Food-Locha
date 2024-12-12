@@ -50,11 +50,8 @@ if uploaded_file is not None:
 submit=st.button("Tell me the total calories")
 
 input_prompt="""
-You are an expert nutritionist where you need to see the food items from the image
-               and calculate the total calories, also provide the details of every food items with calories intake
-               is below format and do not tell whether its accurate or tell the estimated number of items,
-               you just have to tell the exact number of calories from the given image and last tell any two
-               items which user can include in the meal to make the taste more better and healthier
+You are an expert nutritionist. Your task is to identify the food items from the image provided, calculate the total calories, 
+and provide details for each food item in the following format. Do not include disclaimers or mention whether the counts are estimated or exact. Focus only on the calorie count and suggestions.
 
                1. Item 1 - no of calories
                2. Item 2 - no of calories
