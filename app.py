@@ -39,7 +39,7 @@ st.set_page_config(page_title="Food Locha ")
 
 st.title("Food Locha: : Made with ❣️ by Ayaz")
 st.header("Upload your meal image to get the calories detail")
-input=st.text_input("Input Prompt: (Optional) ",key="input")
+#input=st.text_input("Input Prompt: (Optional) ",key="input")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 image=""   
 if uploaded_file is not None:
@@ -52,12 +52,19 @@ submit=st.button("Tell me the total calories")
 input_prompt="""
 You are an expert nutritionist where you need to see the food items from the image
                and calculate the total calories, also provide the details of every food items with calories intake
-               is below format and do not tell whether its accurate or not you just have to tell the exact number of calories from the given image.
+               is below format and do not tell whether its accurate or tell the estimated number of items,
+               you just have to tell the exact number of calories from the given image and last tell any two
+               items which user can include in the meal to make the taste more better and healthier
 
                1. Item 1 - no of calories
                2. Item 2 - no of calories
                ----
                ----
+
+
+               Suggestion:
+                    1. Suggestion 1: ---------
+                    2. Suggestion 2: ---------
 
 
 """
