@@ -40,7 +40,7 @@ st.set_page_config(page_title="Food Locha ")
 st.title("Food Locha: : Made with ❣️ by Ayaz")
 st.header("Upload your meal image to get the calories detail")
 input=st.text_input("Ask Specific Question: (Optional) ",key="input")
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Choose an image...")
 image=""   
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
