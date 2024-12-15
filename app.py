@@ -3,7 +3,7 @@ import streamlit as st
 import os
 import google.generativeai as genai
 from PIL import Image, UnidentifiedImageError
-import pillow_heif  # HEIC support
+import pillow_heif  
 from googletrans import Translator
 import io
 
@@ -14,13 +14,7 @@ pillow_heif.register_heif_opener()
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Function to log file details for debugging
-def log_file_details(uploaded_file):
-    if uploaded_file:
-        st.write("**File Debug Info:**")
-        st.write(f"File Name: {uploaded_file.name}")
-        st.write(f"MIME Type: {uploaded_file.type}")
-        st.write(f"File Size: {uploaded_file.size} bytes")
+
 
 # Function to convert image format and handle MIME type
 def convert_image_format(uploaded_file):
@@ -67,7 +61,6 @@ input = st.text_input("Ask Specific Question: (Optional)", key="input")
 uploaded_file = st.file_uploader("Choose an image...")
 
 if uploaded_file:
-    log_file_details(uploaded_file)  # Debugging info
     try:
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image.", use_container_width=True)
