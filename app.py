@@ -3,9 +3,9 @@ import streamlit as st
 import os
 import google.generativeai as genai
 from PIL import Image, UnidentifiedImageError
-import pillow_heif  
-from googletrans import Translator 
-import io 
+import pillow_heif  # HEIC support
+from googletrans import Translator
+import io
 
 # Enable HEIC support
 pillow_heif.register_heif_opener()
@@ -14,23 +14,23 @@ pillow_heif.register_heif_opener()
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Function to convert HEIC to JPEG and set MIME type
+# Function to log file details for debugging
+def log_file_details(uploaded_file):
+    if uploaded_file:
+        st.write("**File Debug Info:**")
+        st.write(f"File Name: {uploaded_file.name}")
+        st.write(f"MIME Type: {uploaded_file.type}")
+        st.write(f"File Size: {uploaded_file.size} bytes")
+
+# Function to convert image format and handle MIME type
 def convert_image_format(uploaded_file):
     try:
-        # Open the uploaded file
         image = Image.open(uploaded_file)
-        
-        # Convert HEIC to JPEG if necessary
-        if uploaded_file.type == "application/octet-stream" or image.format == "HEIC":
-            # Convert HEIC to JPEG
-            buffer = io.BytesIO()
-            image = image.convert("RGB")
-            image.save(buffer, format="JPEG")
-            buffer.seek(0)
-            return buffer, "image/jpeg"
-        
-        # Use the uploaded file's data if it's already supported
-        return uploaded_file, uploaded_file.type
+        buffer = io.BytesIO()
+        image = image.convert("RGB")  # Ensure compatibility
+        image.save(buffer, format="JPEG")
+        buffer.seek(0)
+        return buffer, "image/jpeg"
     except UnidentifiedImageError:
         raise ValueError("Unsupported image format. Please upload PNG, JPEG, or HEIC images.")
 
@@ -47,7 +47,7 @@ def get_gemini_response(input, image_data, mime_type, prompt):
 # Function to prepare image data
 def input_image_setup(uploaded_file):
     converted_file, mime_type = convert_image_format(uploaded_file)
-    bytes_data = converted_file.getvalue() if hasattr(converted_file, "getvalue") else converted_file.read()
+    bytes_data = converted_file.getvalue()
     return bytes_data, mime_type
 
 # Translation function using googletrans
@@ -66,8 +66,8 @@ st.header("Upload your meal image to get the calorie details")
 input = st.text_input("Ask Specific Question: (Optional)", key="input")
 uploaded_file = st.file_uploader("Choose an image...")
 
-# Display the uploaded image
-if uploaded_file is not None:
+if uploaded_file:
+    log_file_details(uploaded_file)  # Debugging info
     try:
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image.", use_container_width=True)
