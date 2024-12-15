@@ -4,7 +4,8 @@ import os
 import google.generativeai as genai
 from PIL import Image, UnidentifiedImageError
 import pillow_heif  
-from googletrans import Translator  
+from googletrans import Translator 
+import io 
 
 # Enable HEIC support
 pillow_heif.register_heif_opener()
@@ -13,25 +14,41 @@ pillow_heif.register_heif_opener()
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
+# Function to convert HEIC to JPEG and set MIME type
+def convert_image_format(uploaded_file):
+    try:
+        # Open the uploaded file
+        image = Image.open(uploaded_file)
+        
+        # Convert HEIC to JPEG if necessary
+        if uploaded_file.type == "application/octet-stream" or image.format == "HEIC":
+            # Convert HEIC to JPEG
+            buffer = io.BytesIO()
+            image = image.convert("RGB")
+            image.save(buffer, format="JPEG")
+            buffer.seek(0)
+            return buffer, "image/jpeg"
+        
+        # Use the uploaded file's data if it's already supported
+        return uploaded_file, uploaded_file.type
+    except UnidentifiedImageError:
+        raise ValueError("Unsupported image format. Please upload PNG, JPEG, or HEIC images.")
+
 # Function to load Google Gemini Pro Vision API and get response
-def get_gemini_response(input, image, prompt):
+def get_gemini_response(input, image_data, mime_type, prompt):
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content([input, image[0], prompt])
+    response = model.generate_content([
+        {"mime_type": mime_type, "data": image_data},
+        input,
+        prompt,
+    ])
     return response.text
 
 # Function to prepare image data
 def input_image_setup(uploaded_file):
-    if uploaded_file is not None:
-        bytes_data = uploaded_file.getvalue()
-        image_parts = [
-            {
-                "mime_type": uploaded_file.type,
-                "data": bytes_data,
-            }
-        ]
-        return image_parts
-    else:
-        raise FileNotFoundError("No file uploaded")
+    converted_file, mime_type = convert_image_format(uploaded_file)
+    bytes_data = converted_file.getvalue() if hasattr(converted_file, "getvalue") else converted_file.read()
+    return bytes_data, mime_type
 
 # Translation function using googletrans
 def translate_text(text, target_language):
@@ -49,10 +66,9 @@ st.header("Upload your meal image to get the calorie details")
 input = st.text_input("Ask Specific Question: (Optional)", key="input")
 uploaded_file = st.file_uploader("Choose an image...")
 
-image = ""
+# Display the uploaded image
 if uploaded_file is not None:
     try:
-        # Handle HEIC and other image formats
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image.", use_container_width=True)
     except UnidentifiedImageError:
@@ -88,10 +104,10 @@ if submit:
         with st.spinner("Processing... Please wait."):
             try:
                 # Prepare image data
-                image_data = input_image_setup(uploaded_file)
+                image_data, mime_type = input_image_setup(uploaded_file)
 
                 # Get Gemini response
-                response = get_gemini_response(input_prompt, image_data, input)
+                response = get_gemini_response(input, image_data, mime_type, input_prompt)
 
                 # Translate the response to the selected language
                 target_language = language_map[selected_language]
