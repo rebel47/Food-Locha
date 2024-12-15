@@ -2,8 +2,12 @@ from dotenv import load_dotenv
 import streamlit as st
 import os
 import google.generativeai as genai
-from PIL import Image
-from googletrans import Translator  # Google Translate library for language translation
+from PIL import Image, UnidentifiedImageError
+import pillow_heif  
+from googletrans import Translator  
+
+# Enable HEIC support
+pillow_heif.register_heif_opener()
 
 # Load environment variables
 load_dotenv()
@@ -44,10 +48,15 @@ st.header("Upload your meal image to get the calorie details")
 # Input and file uploader
 input = st.text_input("Ask Specific Question: (Optional)", key="input")
 uploaded_file = st.file_uploader("Choose an image...")
+
 image = ""
 if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image.", use_container_width=True)
+    try:
+        # Handle HEIC and other image formats
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image.", use_container_width=True)
+    except UnidentifiedImageError:
+        st.error("Unsupported image format. Please upload PNG, JPEG, or HEIC images.")
 
 # Language selection dropdown
 language_map = {"English": "en", "French": "fr", "Dutch": "nl", "German": "de"}
