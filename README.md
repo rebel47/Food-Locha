@@ -85,5 +85,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 **Made with ❤️ by Ayaz**
 ```
-
-Copy and save this content as `README.md` in your project repository. Let me know if you need further adjustments!
