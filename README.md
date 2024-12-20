@@ -20,7 +20,7 @@ Try the app here: [Food Locha](https://healthmanagementapp.streamlit.app/)
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/food-locha.git
+   git clone https://github.com/rebel47/food-locha.git
    cd food-locha
    ```
 
