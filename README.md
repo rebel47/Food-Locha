@@ -1,10 +1,10 @@
 # Food Locha 🍴
 
-Food Locha is a user-friendly Streamlit-based web application that uses Google Gemini Pro Vision API to analyze meal images, calculate calorie details, and provide nutritional insights. The application supports image uploads in formats such as PNG, JPEG, and HEIC, and offers the option to translate results into multiple languages.
+Food Locha is a user-friendly Streamlit-based web application that uses Google Gemini 1.5 Flash to analyze meal images, calculate calorie details, and provide nutritional insights. The application supports image uploads in formats such as PNG, JPEG, and HEIC, and offers the option to translate results into multiple languages.
 
 ## Features
 - **Image Upload & Conversion:** Supports PNG, JPEG, and HEIC image formats.
-- **Calorie Estimation:** Leverages Google Gemini Pro Vision API to identify food items and calculate calorie counts.
+- **Calorie Estimation:** Leverages Google Gemini 1.5 Flash to identify food items and calculate calorie counts.
 - **Language Translation:** Translates results into multiple languages using `googletrans`.
 - **Interactive UI:** Built with Streamlit for an intuitive and responsive user interface.
 
@@ -15,7 +15,7 @@ Try the app here: [Food Locha](https://healthmanagementapp.streamlit.app/)
 
 ### Prerequisites
 - Python 3.8 or above
-- A Google Cloud API key with access to the Gemini Pro Vision API
+- A Google Cloud API key with access to the Google Gemini 1.5 Flash
 
 ### Steps
 1. Clone the repository:
@@ -42,7 +42,7 @@ Try the app here: [Food Locha](https://healthmanagementapp.streamlit.app/)
 
 ## How It Works
 1. **Image Processing:** Uploaded images are converted to JPEG format for compatibility.
-2. **Content Analysis:** Google Gemini Pro Vision API identifies food items and their calorie content.
+2. **Content Analysis:** Google Gemini 1.5 Flash identifies food items and their calorie content.
 3. **Translation:** The response is translated into the selected language using `googletrans`.
 4. **Output Display:** Calorie details and nutritional suggestions are displayed in the chosen language.
 
@@ -65,7 +65,7 @@ Suggestions:
 ## Technologies Used
 - **Streamlit:** For the interactive web interface
 - **Pillow & pillow-heif:** For image processing and HEIC support
-- **Google Gemini Pro Vision API:** For image analysis and calorie estimation
+- **Google Gemini 1.5 Flash:** For image analysis and calorie estimation
 - **googletrans:** For language translation
 - **Python-dotenv:** For environment variable management
 
