@@ -53,7 +53,8 @@ def translate_text(text, target_language):
 # Initialize Streamlit app
 st.set_page_config(page_title="Food Locha")
 
-st.title("Food Locha: Made with ❣️ by Ayaz")
+st.title("Food Locha: Made with ❣️")
+st.text("       - Developed By: Mohammad Ayaz Alam")
 st.header("Upload your meal image to get the calorie details")
 
 # Input and file uploader
