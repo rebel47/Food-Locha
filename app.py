@@ -30,7 +30,7 @@ def convert_image_format(uploaded_file):
 
 # Function to load Google Gemini Pro Vision API and get response
 def get_gemini_response(input, image_data, mime_type, prompt):
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash")
     response = model.generate_content([
         {"mime_type": mime_type, "data": image_data},
         input,
